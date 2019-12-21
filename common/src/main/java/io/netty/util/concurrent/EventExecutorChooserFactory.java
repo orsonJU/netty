@@ -17,9 +17,13 @@ package io.netty.util.concurrent;
 
 import io.netty.util.internal.UnstableApi;
 
+
+// idea chooser类簇
 /**
  * Factory that creates new {@link EventExecutorChooser}s.
  */
+// idea EventExecutorChooserFactory是一个工厂类，这里把这个工厂生产的产品都抽象成一个接口EventExecutorChooser，
+//  这样子只有实现当前功能接口的工厂实现类来保护自己的产品的实现细节
 @UnstableApi
 public interface EventExecutorChooserFactory {
 
@@ -31,6 +35,7 @@ public interface EventExecutorChooserFactory {
     /**
      * Chooses the next {@link EventExecutor} to use.
      */
+    // EventExecutorChooser是当前工厂类生产的产品类型
     @UnstableApi
     interface EventExecutorChooser {
 

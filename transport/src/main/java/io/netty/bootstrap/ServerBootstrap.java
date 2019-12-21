@@ -123,6 +123,7 @@ public class ServerBootstrap extends AbstractBootstrap<ServerBootstrap, ServerCh
 
     @Override
     void init(Channel channel) {
+        // mist 设置属性，应该和NIO相关
         setChannelOptions(channel, options0().entrySet().toArray(newOptionArray(0)), logger);
         setAttributes(channel, attrs0().entrySet().toArray(newAttrArray(0)));
 

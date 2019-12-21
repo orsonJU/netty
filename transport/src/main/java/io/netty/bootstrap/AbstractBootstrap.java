@@ -96,6 +96,7 @@ public abstract class AbstractBootstrap<B extends AbstractBootstrap<B, C>, C ext
      * {@link Channel} implementation has no no-args constructor.
      */
     public B channel(Class<? extends C> channelClass) {
+        // ObjectUtil.checkNotNull，如果对象是非空，则返回对象本身
         return channelFactory(new ReflectiveChannelFactory<C>(
                 ObjectUtil.checkNotNull(channelClass, "channelClass")
         ));
@@ -189,9 +190,11 @@ public abstract class AbstractBootstrap<B extends AbstractBootstrap<B, C>, C ext
      * call the super method in that case.
      */
     public B validate() {
+        // 检查boss group是否已经设置
         if (group == null) {
             throw new IllegalStateException("group not set");
         }
+        // 检查底层的channel实现类是否已经设置
         if (channelFactory == null) {
             throw new IllegalStateException("channel or channelFactory not set");
         }
@@ -253,6 +256,7 @@ public abstract class AbstractBootstrap<B extends AbstractBootstrap<B, C>, C ext
      */
     public ChannelFuture bind(SocketAddress localAddress) {
         validate();
+        // @main method
         return doBind(ObjectUtil.checkNotNull(localAddress, "localAddress"));
     }
 
@@ -295,6 +299,7 @@ public abstract class AbstractBootstrap<B extends AbstractBootstrap<B, C>, C ext
     final ChannelFuture initAndRegister() {
         Channel channel = null;
         try {
+            // idea 创建一个NIOServerScoketChannel
             channel = channelFactory.newChannel();
             init(channel);
         } catch (Throwable t) {
@@ -352,6 +357,7 @@ public abstract class AbstractBootstrap<B extends AbstractBootstrap<B, C>, C ext
     /**
      * the {@link ChannelHandler} to use for serving the requests.
      */
+    // handler会处理requests
     public B handler(ChannelHandler handler) {
         this.handler = ObjectUtil.checkNotNull(handler, "handler");
         return self();

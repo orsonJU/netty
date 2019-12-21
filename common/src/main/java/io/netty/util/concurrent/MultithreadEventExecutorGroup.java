@@ -34,6 +34,7 @@ public abstract class MultithreadEventExecutorGroup extends AbstractEventExecuto
     private final Set<EventExecutor> readonlyChildren;
     private final AtomicInteger terminatedChildren = new AtomicInteger();
     private final Promise<?> terminationFuture = new DefaultPromise(GlobalEventExecutor.INSTANCE);
+    // EventExecutorChooserFactory类簇
     private final EventExecutorChooserFactory.EventExecutorChooser chooser;
 
     /**
@@ -60,6 +61,7 @@ public abstract class MultithreadEventExecutorGroup extends AbstractEventExecuto
 
     /**
      * Create a new instance.
+     * 创建实例
      *
      * @param nThreads          the number of threads that will be used by this instance.
      * @param executor          the Executor to use, or {@code null} if the default should be used.
@@ -72,12 +74,15 @@ public abstract class MultithreadEventExecutorGroup extends AbstractEventExecuto
             throw new IllegalArgumentException(String.format("nThreads: %d (expected: > 0)", nThreads));
         }
 
+        // idea 设计到线程池的话，通常就会有自己的ThreadFactory
         if (executor == null) {
             executor = new ThreadPerTaskExecutor(newDefaultThreadFactory());
         }
 
+        // worker线程组，注意，这里是数组，不是对象
         children = new EventExecutor[nThreads];
 
+        // 初始化worker线程组
         for (int i = 0; i < nThreads; i ++) {
             boolean success = false;
             try {
@@ -87,6 +92,7 @@ public abstract class MultithreadEventExecutorGroup extends AbstractEventExecuto
                 // TODO: Think about if this is a good exception type
                 throw new IllegalStateException("failed to create a child event loop", e);
             } finally {
+                // 如果创建失败了，则调用每个线程池的shutdownGracefully来安全推出
                 if (!success) {
                     for (int j = 0; j < i; j ++) {
                         children[j].shutdownGracefully();
@@ -132,6 +138,7 @@ public abstract class MultithreadEventExecutorGroup extends AbstractEventExecuto
         return new DefaultThreadFactory(getClass());
     }
 
+    // idea 核心实现
     @Override
     public EventExecutor next() {
         return chooser.next();
