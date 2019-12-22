@@ -94,9 +94,10 @@ public class DefaultChannelPipeline implements ChannelPipeline {
         succeededFuture = new SucceededChannelFuture(channel, null);
         voidPromise =  new VoidChannelPromise(channel, true);
 
+        // idea 这里还原了一个pipeline的抽象模型，链表？和AQS的设计类似？
         tail = new TailContext(this);
         head = new HeadContext(this);
-
+        // idea 这是一个双向的链表
         head.next = tail;
         tail.prev = head;
     }
@@ -195,6 +196,7 @@ public class DefaultChannelPipeline implements ChannelPipeline {
         return addLast(null, name, handler);
     }
 
+    // @main method
     @Override
     public final ChannelPipeline addLast(EventExecutorGroup group, String name, ChannelHandler handler) {
         final AbstractChannelHandlerContext newCtx;

@@ -313,6 +313,8 @@ public abstract class AbstractBootstrap<B extends AbstractBootstrap<B, C>, C ext
             return new DefaultChannelPromise(new FailedChannel(), GlobalEventExecutor.INSTANCE).setFailure(t);
         }
 
+        // @main method 获取bootstrap，再获取它的eventloopgroup，一般是NioEventLoopGroup，将channel注册进去
+        // idea 因为NioEventLoopGroup中有很多的EventLoop，每个EventLoop都是一个NIO的selector，所以相当于注册SocketChannel到selector中去
         ChannelFuture regFuture = config().group().register(channel);
         if (regFuture.cause() != null) {
             if (channel.isRegistered()) {

@@ -24,6 +24,7 @@ import java.lang.reflect.Constructor;
 /**
  * A {@link ChannelFactory} that instantiates a new {@link Channel} by invoking its default constructor reflectively.
  */
+// idea 工厂方法，我们应该马上想到类似与JDK的ThreadFactory或者mybatis的SqlSessionFactory
 public class ReflectiveChannelFactory<T extends Channel> implements ChannelFactory<T> {
 
     private final Constructor<? extends T> constructor;

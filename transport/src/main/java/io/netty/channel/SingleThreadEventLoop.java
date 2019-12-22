@@ -84,6 +84,7 @@ public abstract class SingleThreadEventLoop extends SingleThreadEventExecutor im
     @Override
     public ChannelFuture register(final ChannelPromise promise) {
         ObjectUtil.checkNotNull(promise, "promise");
+        // idea promise.channel实质上就是NioSocketChannel，而.unsafe()就是获取对应的JDK SocketChannel的操作，最后进行注册
         promise.channel().unsafe().register(this, promise);
         return promise;
     }

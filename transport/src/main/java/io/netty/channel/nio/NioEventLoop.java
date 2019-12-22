@@ -95,6 +95,7 @@ public final class NioEventLoop extends SingleThreadEventLoop {
             }
         }
 
+        // mist selector空轮训达到512次
         int selectorAutoRebuildThreshold = SystemPropertyUtil.getInt("io.netty.selectorAutoRebuildThreshold", 512);
         if (selectorAutoRebuildThreshold < MIN_PREMATURE_SELECTOR_RETURNS) {
             selectorAutoRebuildThreshold = 0;
@@ -216,6 +217,7 @@ public final class NioEventLoop extends SingleThreadEventLoop {
         final Class<?> selectorImplClass = (Class<?>) maybeSelectorImplClass;
         final SelectedSelectionKeySet selectedKeySet = new SelectedSelectionKeySet();
 
+        // mist 偷梁换柱？
         Object maybeException = AccessController.doPrivileged(new PrivilegedAction<Object>() {
             @Override
             public Object run() {
@@ -366,6 +368,7 @@ public final class NioEventLoop extends SingleThreadEventLoop {
      * around the infamous epoll 100% CPU bug.
      */
     public void rebuildSelector() {
+        // mist 如果当前线程是不在当前的eventloop？
         if (!inEventLoop()) {
             execute(new Runnable() {
                 @Override
@@ -400,6 +403,7 @@ public final class NioEventLoop extends SingleThreadEventLoop {
 
         // Register all channels to the new Selector.
         int nChannels = 0;
+        // 获取注册到old selector上的所有keys，read|write|accept
         for (SelectionKey key: oldSelector.keys()) {
             Object a = key.attachment();
             try {

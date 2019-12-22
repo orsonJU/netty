@@ -70,7 +70,9 @@ public abstract class AbstractChannel extends DefaultAttributeMap implements Cha
     protected AbstractChannel(Channel parent) {
         this.parent = parent;
         id = newId();
+        // 实例化底层java对NIO的操作封装类
         unsafe = newUnsafe();
+        // 实例化pipeline
         pipeline = newChannelPipeline();
     }
 
@@ -465,6 +467,7 @@ public abstract class AbstractChannel extends DefaultAttributeMap implements Cha
 
             AbstractChannel.this.eventLoop = eventLoop;
 
+            // mist
             if (eventLoop.inEventLoop()) {
                 register0(promise);
             } else {
@@ -486,7 +489,7 @@ public abstract class AbstractChannel extends DefaultAttributeMap implements Cha
             }
         }
 
-        private void register0(ChannelPromise promise) {
+        private void xregister0(ChannelPromise promise) {
             try {
                 // check if the channel is still open as it could be closed in the mean time when the register
                 // call was outside of the eventLoop
