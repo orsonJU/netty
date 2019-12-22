@@ -114,6 +114,7 @@ public class DefaultChannelPromise extends DefaultPromise<Void> implements Chann
         return this;
     }
 
+    // @main method
     @Override
     public ChannelPromise sync() throws InterruptedException {
         super.sync();

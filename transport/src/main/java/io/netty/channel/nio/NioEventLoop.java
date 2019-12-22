@@ -146,6 +146,7 @@ public final class NioEventLoop extends SingleThreadEventLoop {
             throw new NullPointerException("selectStrategy");
         }
         provider = selectorProvider;
+        // 获取一个JDK selector并包装
         final SelectorTuple selectorTuple = openSelector();
         selector = selectorTuple.selector;
         unwrappedSelector = selectorTuple.unwrappedSelector;
@@ -176,6 +177,7 @@ public final class NioEventLoop extends SingleThreadEventLoop {
     }
 
     private SelectorTuple openSelector() {
+        // 这里的Selector是java原生的selector
         final Selector unwrappedSelector;
         try {
             // idea 原来NIO使用的模型是通过SPI来加载的，不同的操作系统平台使用的会不一样，
@@ -451,6 +453,7 @@ public final class NioEventLoop extends SingleThreadEventLoop {
 
     @Override
     protected void run() {
+        // idea 这里开始了JDK中NIO死循环去调用selector.select()的方法
         for (;;) {
             try {
                 try {

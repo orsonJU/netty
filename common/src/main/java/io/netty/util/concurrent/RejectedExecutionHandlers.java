@@ -24,6 +24,7 @@ import java.util.concurrent.locks.LockSupport;
 /**
  * Expose helper methods which create different {@link RejectedExecutionHandler}s.
  */
+// idea RejectedExecutionHandlers相当于一个工具类，
 public final class RejectedExecutionHandlers {
     private static final RejectedExecutionHandler REJECT = new RejectedExecutionHandler() {
         @Override

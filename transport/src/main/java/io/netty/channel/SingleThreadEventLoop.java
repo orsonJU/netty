@@ -78,6 +78,7 @@ public abstract class SingleThreadEventLoop extends SingleThreadEventExecutor im
 
     @Override
     public ChannelFuture register(Channel channel) {
+        // idea 这里的DefaultChannelPromise完成了channel和Eventloop的关联
         return register(new DefaultChannelPromise(channel, this));
     }
 

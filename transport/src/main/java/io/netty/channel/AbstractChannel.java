@@ -465,6 +465,7 @@ public abstract class AbstractChannel extends DefaultAttributeMap implements Cha
                 return;
             }
 
+            // 分配给当前channel一个EventLoop对象
             AbstractChannel.this.eventLoop = eventLoop;
 
             // mist
@@ -489,7 +490,8 @@ public abstract class AbstractChannel extends DefaultAttributeMap implements Cha
             }
         }
 
-        private void xregister0(ChannelPromise promise) {
+        // @main method
+        private void register0(ChannelPromise promise) {
             try {
                 // check if the channel is still open as it could be closed in the mean time when the register
                 // call was outside of the eventLoop
@@ -1075,6 +1077,7 @@ public abstract class AbstractChannel extends DefaultAttributeMap implements Cha
      */
     protected void doRegister() throws Exception {
         // NOOP
+        // idea AbstractNioChannel重写了该方法
     }
 
     /**

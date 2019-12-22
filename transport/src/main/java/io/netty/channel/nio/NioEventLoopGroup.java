@@ -49,6 +49,7 @@ public class NioEventLoopGroup extends MultithreadEventLoopGroup {
      * {@link SelectorProvider} which is returned by {@link SelectorProvider#provider()}.
      */
     public NioEventLoopGroup(int nThreads) {
+        // mist 为什么要强制将null转换成一个Executor对象呢？
         this(nThreads, (Executor) null);
     }
 

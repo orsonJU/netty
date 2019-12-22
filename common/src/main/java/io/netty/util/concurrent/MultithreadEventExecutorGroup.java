@@ -77,6 +77,7 @@ public abstract class MultithreadEventExecutorGroup extends AbstractEventExecuto
 
         // idea 设计到线程池的话，通常就会有自己的ThreadFactory
         if (executor == null) {
+            // 每一个executor都是执行任务都线程池
             executor = new ThreadPerTaskExecutor(newDefaultThreadFactory());
         }
 
@@ -87,7 +88,7 @@ public abstract class MultithreadEventExecutorGroup extends AbstractEventExecuto
         for (int i = 0; i < nThreads; i ++) {
             boolean success = false;
             try {
-                // 每一个child都是一个eventloop的实现
+                // 每一个child都是一个eventloop的实现，而且也是一个可以执行任务都Executor
                 children[i] = newChild(executor, args);
                 success = true;
             } catch (Exception e) {

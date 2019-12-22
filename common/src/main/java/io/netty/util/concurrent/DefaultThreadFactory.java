@@ -103,6 +103,7 @@ public class DefaultThreadFactory implements ThreadFactory {
                 Thread.currentThread().getThreadGroup() : System.getSecurityManager().getThreadGroup());
     }
 
+    // @main method
     @Override
     public Thread newThread(Runnable r) {
         Thread t = newThread(FastThreadLocalRunnable.wrap(r), prefix + nextId.incrementAndGet());
@@ -121,6 +122,7 @@ public class DefaultThreadFactory implements ThreadFactory {
     }
 
     protected Thread newThread(Runnable r, String name) {
+        // FastThreadLocalThread继承了Thread
         return new FastThreadLocalThread(threadGroup, r, name);
     }
 }

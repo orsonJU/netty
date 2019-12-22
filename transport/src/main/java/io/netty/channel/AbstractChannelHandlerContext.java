@@ -517,6 +517,7 @@ abstract class AbstractChannelHandlerContext implements ChannelHandlerContext, R
         return connect(remoteAddress, null, promise);
     }
 
+    // @main method
     @Override
     public ChannelFuture connect(
             final SocketAddress remoteAddress, final SocketAddress localAddress, final ChannelPromise promise) {
@@ -531,6 +532,7 @@ abstract class AbstractChannelHandlerContext implements ChannelHandlerContext, R
 
         final AbstractChannelHandlerContext next = findContextOutbound(MASK_CONNECT);
         EventExecutor executor = next.executor();
+        // mist
         if (executor.inEventLoop()) {
             next.invokeConnect(remoteAddress, localAddress, promise);
         } else {
@@ -926,6 +928,7 @@ abstract class AbstractChannelHandlerContext implements ChannelHandlerContext, R
     private AbstractChannelHandlerContext findContextOutbound(int mask) {
         AbstractChannelHandlerContext ctx = this;
         do {
+            // mist 寻找pipeline的头部节点?
             ctx = ctx.prev;
         } while ((ctx.executionMask & mask) == 0);
         return ctx;

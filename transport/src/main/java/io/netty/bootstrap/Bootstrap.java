@@ -139,6 +139,7 @@ public class Bootstrap extends AbstractBootstrap<Bootstrap, Channel> {
     public ChannelFuture connect(SocketAddress remoteAddress) {
         ObjectUtil.checkNotNull(remoteAddress, "remoteAddress");
         validate();
+        // @main method
         return doResolveAndConnect(remoteAddress, config.localAddress());
     }
 
@@ -155,13 +156,16 @@ public class Bootstrap extends AbstractBootstrap<Bootstrap, Channel> {
      * @see #connect()
      */
     private ChannelFuture doResolveAndConnect(final SocketAddress remoteAddress, final SocketAddress localAddress) {
+        // @main method
         final ChannelFuture regFuture = initAndRegister();
+        // 获取到client的socket channel
         final Channel channel = regFuture.channel();
 
         if (regFuture.isDone()) {
             if (!regFuture.isSuccess()) {
                 return regFuture;
             }
+            // @main method
             return doResolveAndConnect0(channel, remoteAddress, localAddress, channel.newPromise());
         } else {
             // Registration future is almost always fulfilled already, but just in case it's not.
@@ -220,10 +224,12 @@ public class Bootstrap extends AbstractBootstrap<Bootstrap, Channel> {
             resolveFuture.addListener(new FutureListener<SocketAddress>() {
                 @Override
                 public void operationComplete(Future<SocketAddress> future) throws Exception {
+                    // 如果连接失败了
                     if (future.cause() != null) {
                         channel.close();
                         promise.setFailure(future.cause());
                     } else {
+                        // @main method
                         doConnect(future.getNow(), localAddress, promise);
                     }
                 }
@@ -257,6 +263,7 @@ public class Bootstrap extends AbstractBootstrap<Bootstrap, Channel> {
     @SuppressWarnings("unchecked")
     void init(Channel channel) {
         ChannelPipeline p = channel.pipeline();
+        // idea 将我们在bootstrap.handler(...)里面的hander添加到了pipeline中
         p.addLast(config.handler());
 
         setChannelOptions(channel, options0().entrySet().toArray(newOptionArray(0)), logger);

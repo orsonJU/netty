@@ -985,11 +985,13 @@ public abstract class SingleThreadEventExecutor extends AbstractScheduledEventEx
         return false;
     }
 
+    // mist
     private void doStartThread() {
         assert thread == null;
         executor.execute(new Runnable() {
             @Override
             public void run() {
+                // mist 这个应该是run这个Runnable任务的线程？
                 thread = Thread.currentThread();
                 if (interrupted) {
                     thread.interrupt();
@@ -998,6 +1000,7 @@ public abstract class SingleThreadEventExecutor extends AbstractScheduledEventEx
                 boolean success = false;
                 updateLastExecutionTime();
                 try {
+                    // idea 在run方法开始的时候开启了一个新的线程，然后用这个新的线程来执行SingleThreadEventExecutor的run方法
                     SingleThreadEventExecutor.this.run();
                     success = true;
                 } catch (Throwable t) {
