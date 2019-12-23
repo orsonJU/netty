@@ -835,10 +835,12 @@ public abstract class SingleThreadEventExecutor extends AbstractScheduledEventEx
         execute(ObjectUtil.checkNotNull(task, "task"), false);
     }
 
+    // @main method
     private void execute(Runnable task, boolean immediate) {
         boolean inEventLoop = inEventLoop();
         addTask(task);
         if (!inEventLoop) {
+            // @main method
             startThread();
             if (isShutdown()) {
                 boolean reject = false;
@@ -956,6 +958,7 @@ public abstract class SingleThreadEventExecutor extends AbstractScheduledEventEx
             if (STATE_UPDATER.compareAndSet(this, ST_NOT_STARTED, ST_STARTED)) {
                 boolean success = false;
                 try {
+                    // @main method
                     doStartThread();
                     success = true;
                 } finally {
@@ -988,6 +991,7 @@ public abstract class SingleThreadEventExecutor extends AbstractScheduledEventEx
     // mist
     private void doStartThread() {
         assert thread == null;
+        // execute会立即返回
         executor.execute(new Runnable() {
             @Override
             public void run() {

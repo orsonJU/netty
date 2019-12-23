@@ -59,7 +59,7 @@ public final class DiscardClient {
                      if (sslCtx != null) {
                          p.addLast(sslCtx.newHandler(ch.alloc(), HOST, PORT));
                      }
-                     p.addLast(new DiscardClientHandler());
+                     p.addLast(new DiscardClientHandler()); // inbound 
                  }
              });
 

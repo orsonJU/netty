@@ -50,11 +50,11 @@ public class RedisClient {
                  @Override
                  protected void initChannel(SocketChannel ch) throws Exception {
                      ChannelPipeline p = ch.pipeline();
-                     p.addLast(new RedisDecoder());
-                     p.addLast(new RedisBulkStringAggregator());
-                     p.addLast(new RedisArrayAggregator());
-                     p.addLast(new RedisEncoder());
-                     p.addLast(new RedisClientHandler());
+                     p.addLast(new RedisDecoder()); // inbound
+                     p.addLast(new RedisBulkStringAggregator()); // inbound
+                     p.addLast(new RedisArrayAggregator()); // inbound
+                     p.addLast(new RedisEncoder()); // outbound
+                     p.addLast(new RedisClientHandler());   // inbound & outbound
                  }
              });
 

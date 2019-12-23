@@ -514,6 +514,7 @@ public final class NioEventLoop extends SingleThreadEventLoop {
                 final int ioRatio = this.ioRatio;
                 if (ioRatio == 100) {
                     try {
+                        // @main method
                         processSelectedKeys();
                     } finally {
                         // Ensure we always run tasks.
@@ -634,6 +635,7 @@ public final class NioEventLoop extends SingleThreadEventLoop {
     }
 
     private void processSelectedKeysOptimized() {
+        // idea JDK NIO代码
         for (int i = 0; i < selectedKeys.size; ++i) {
             final SelectionKey k = selectedKeys.keys[i];
             // null out entry in the array to allow to have it GC'ed once the Channel close

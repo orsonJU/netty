@@ -299,7 +299,7 @@ public abstract class AbstractBootstrap<B extends AbstractBootstrap<B, C>, C ext
     final ChannelFuture initAndRegister() {
         Channel channel = null;
         try {
-            // idea 创建一个NIOServerScoketChannel
+            // idea 创建一个NIOServerScoketChannel，创建channel，以及channel的pipeline
             channel = channelFactory.newChannel();
             init(channel);
         } catch (Throwable t) {

@@ -468,7 +468,7 @@ public abstract class AbstractChannel extends DefaultAttributeMap implements Cha
             // 分配给当前channel一个EventLoop对象
             AbstractChannel.this.eventLoop = eventLoop;
 
-            // mist
+            // mist 这里第一个调用inEventLoop的时候，thread变量应该是null，所以返回false
             if (eventLoop.inEventLoop()) {
                 register0(promise);
             } else {
@@ -490,7 +490,7 @@ public abstract class AbstractChannel extends DefaultAttributeMap implements Cha
             }
         }
 
-        // @main method
+        // @main method mist
         private void register0(ChannelPromise promise) {
             try {
                 // check if the channel is still open as it could be closed in the mean time when the register

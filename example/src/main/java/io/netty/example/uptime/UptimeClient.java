@@ -31,6 +31,7 @@ import io.netty.handler.timeout.IdleStateHandler;
  * server.  This example demonstrates how to implement reliable reconnection
  * mechanism in Netty.
  */
+// idea 展示如何创建一个可信赖，可重连的netty客户端
 public final class UptimeClient {
 
     static final String HOST = System.getProperty("host", "127.0.0.1");

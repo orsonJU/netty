@@ -33,7 +33,7 @@ public class DiscardClientHandler extends SimpleChannelInboundHandler<Object> {
     public void channelActive(ChannelHandlerContext ctx) {
         this.ctx = ctx;
 
-        // Initialize the message.
+        // Initialize the message. 初始化一个256bit的对外内存，然后用零填满它，作为初始化的内容
         content = ctx.alloc().directBuffer(DiscardClient.SIZE).writeZero(DiscardClient.SIZE);
 
         // Send the initial messages.
@@ -62,6 +62,7 @@ public class DiscardClientHandler extends SimpleChannelInboundHandler<Object> {
     private void generateTraffic() {
         // Flush the outbound buffer to the socket.
         // Once flushed, generate the same amount of traffic again.
+        // 如果写出成功，则重复写出相同的内容
         ctx.writeAndFlush(content.retainedDuplicate()).addListener(trafficGenerator);
     }
 
