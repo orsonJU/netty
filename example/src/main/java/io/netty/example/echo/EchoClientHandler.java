@@ -41,17 +41,20 @@ public class EchoClientHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) {
+        // 当channel active时，写出信息到服务器
         ctx.writeAndFlush(firstMessage);
     }
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
+        // 客户端收到啥，就把收到的内容发送给server
         ctx.write(msg);
     }
 
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) {
-       ctx.flush();
+        // 这里是配合上面的write方法
+        ctx.flush();
     }
 
     @Override
